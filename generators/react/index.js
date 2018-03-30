@@ -19,14 +19,14 @@ module.exports = class extends Generator {
 
   initializing () {
     this.log('starting react', this.options.appname)
-    this.config.defaults({ 'app-type': 'react' })
   }
 
-  default () {
+  configuring () {
     if (path.basename(this.destinationPath()) !== this.options.appname) {
       mkdirp(this.options.appname)
       this.destinationRoot(this.destinationPath(this.options.appname))
     }
+    this.config.defaults({ 'app-type': 'react' })
   }
 
   prompting () {
