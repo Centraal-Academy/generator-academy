@@ -1,0 +1,9 @@
+import React from 'react'
+
+function <%= name %> (props) {
+  return (
+    <span><%= name %> component</span>
+  )
+}
+
+export default <%= name %>
