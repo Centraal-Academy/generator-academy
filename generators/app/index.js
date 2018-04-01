@@ -1,10 +1,11 @@
 const Generator = require('yeoman-generator')
+const config = require('./config')
 const utils = require('../../libs/utils')
 
 module.exports = class extends Generator {
   constructor (args, opts) {
     super(args, opts)
-    this.argument('type', { type: String, required: false })
+    this.option('type', { type: String, required: false })
     this.argument('appname', { type: String, required: false })
     this.argument('description', { type: String, required: false })
   }
@@ -15,11 +16,15 @@ module.exports = class extends Generator {
       'appname',
       'description'
     )
+    const typeMetadata = config.metadata.type
+    const type = this.options.type
 
-    if (this.options.type) {
+    const resolve = require.resolve
+
+    if (type && typeMetadata.range.includes(type)) {
       this.composeWith(
-        require.resolve(`../${this.options.type}`),
-        {arguments: argumentList}
+        resolve(`../${type}`),
+        { arguments: argumentList }
       )
       return true
     }
@@ -33,8 +38,9 @@ module.exports = class extends Generator {
     }])
       .then((answers) => {
         this.composeWith(
-          require.resolve(`../${answers.type}`),
-          {arguments: argumentList})
+          resolve(`../${answers.type}`),
+          { arguments: argumentList }
+        )
       })
   }
 }

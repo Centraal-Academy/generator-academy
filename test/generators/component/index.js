@@ -12,7 +12,7 @@ describe('test component generator', function () {
     before(() => {
       return loadGenerator()
         .withArguments(['awesome-component'])
-        .withPrompts({ type: 'react', path: '.' })
+        .withOptions({ 'without-base-path': false, path: '.' })
     })
 
     it('generates Awesome Component', function () {
@@ -21,11 +21,11 @@ describe('test component generator', function () {
     })
   })
 
-  describe('test component generator insinde src/pages', function () {
+  describe('test component generator inside src/pages', function () {
     before(() => {
       return loadGenerator()
-      .withArguments(['awesome-component', 'pages'])
-      .withPrompts({ type: 'react' })
+      .withArguments(['awesome-component'])
+      .withOptions({ 'without-base-path': false, path: 'pages' })
     })
 
     it('generates a react component', function () {
@@ -34,12 +34,25 @@ describe('test component generator', function () {
     })
   })
 
+  describe('test component generator inside pages without basepath', function () {
+    before(() => {
+      return loadGenerator()
+      .withArguments(['awesome-component'])
+      .withOptions({ 'without-base-path': true, path: 'pages' })
+    })
+
+    it('generates a react component', function () {
+      assert.file('pages/AwesomeComponent/index.js')
+      assert.fileContent('pages/AwesomeComponent/index.js', 'class AwesomeComponent')
+    })
+  })
+
   describe('test component generator react', function () {
     before(() => {
       return loadGenerator()
         .withArguments(['awesome-component'])
-        .withOptions({ functions: true })
-        .withPrompts({ type: 'react', path: '.' })
+        .withOptions({ function: true, path: '.' })
+        .withPrompts({ type: 'react' })
     })
 
     it('generates a function with Awesome Component ', function () {

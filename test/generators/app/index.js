@@ -7,7 +7,8 @@ describe('app', function () {
   beforeEach(() => {
     return helpers.run(path.join(__dirname, '../../../generators/app'))
     .inTmpDir()
-    .withArguments(['react', 'react-sample'])
+    .withArguments(['sample-app', 'scaffolding app'])
+    .withOptions({ type: 'react' })
   })
 
   it('generates a react project', function () {

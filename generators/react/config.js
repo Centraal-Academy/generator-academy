@@ -1,6 +1,7 @@
 module.exports = {
   metadata: {
     appname: {
+      type: 'argument',
       config: {
         type: String,
         required: false
@@ -13,6 +14,7 @@ module.exports = {
       }
     },
     description: {
+      type: 'argument',
       config: {
         type: String,
         required: false

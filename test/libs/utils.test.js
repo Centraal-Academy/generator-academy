@@ -28,6 +28,14 @@ describe('test utils suite', function () {
       const hasKey = map.has('appname')
       expect(hasKey).to.eq(true)
     })
+
+    it('should return a map without atributtes if the filter return false evaluating attribute', function () {
+      const filterOnlyArgument = (property) => property.type === 'argument'
+      const object = { appname: { type: 'argument' }, path: { type: 'option' } }
+      const map = utils.objectToMap(object, filterOnlyArgument)
+      const hasKey = map.has('object')
+      expect(hasKey).to.eq(false)
+    })
   })
 
   describe('test mapPropertiesToArray method', function () {

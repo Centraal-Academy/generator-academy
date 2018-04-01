@@ -13,9 +13,12 @@ const {
 module.exports = class extends Generator {
   constructor (args, opts) {
     super(args, opts)
-    this.mapArguments = objectToMap(config.metadata)
+    const filterArgument = (object) => object.type === 'argument'
+    this.mapArguments = objectToMap(config.metadata, filterArgument)
     this.mapArguments.forEach((argument, key) => this.argument(key, argument.config))
-    this.option('function')
+    const filterNoArgument = (object) => object.type !== 'argument'
+    objectToMap(config.metadata, filterNoArgument)
+      .forEach((option, key) => this.option(key, option.config))
   }
 
   initializing () {
@@ -23,7 +26,7 @@ module.exports = class extends Generator {
   }
 
   configuring () {
-    this.options.type = this.options.type ? this.options.type : this.config.get('app-type')
+    this.options.type = this.options.type ? this.options.type : (this.config.get('app-type') || 'react')
   }
 
   prompting () {
@@ -47,12 +50,19 @@ module.exports = class extends Generator {
   writing () {
     this.options.name = upperCamelCase(this.options.name)
     const data = selectKeysFromObject(this.options, ...this.argumentsRequired)
-    this.log('running path', this.destinationPath(), path.basename(this.destinationPath()))
-    const pathBase = path.basename(this.destinationPath()) === 'src' ? '.' : 'src'
-    switch (data.type) {
+    let basePath
+
+    if (this.options['without-base-path']) {
+      basePath = '.'
+    } else {
+      basePath = path.basename(this.destinationPath()) === 'src' ? '.' : 'src'
+    }
+
+    switch (this.options.type) {
       case 'react':
         let typeComponent = this.options.function ? 'function' : 'class'
-        writeTemplate.call(this, `react/component-${typeComponent}`, `${pathBase}/${this.options.path}/${this.options.name}/index.js`, data)
+        writeTemplate.call(this, `react/component-${typeComponent}`,
+          `${basePath}/${this.options.path}/${this.options.name}/index.js`, data)
         break
       default:
         this.log('type unknow')
