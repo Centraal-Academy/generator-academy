@@ -1,7 +1,7 @@
 {
   "name": "generator-academy",
-  "version": "1.0.0",
-  "description": "Generator react and polymer apps",
+  "version": "0.0.1",
+  "description": "Generator applications and components",
   "files": [
     "generators"
   ],
@@ -15,7 +15,9 @@
   "keywords": [
     "yeoman-generator",
     "react-generator",
-    "polymer-generator"
+    "polymer-generator",
+    "vue-component",
+    "angular-generator"
   ],
   "author": "Joel Humberto Gómez Paredes <elmaildeldezkareid@gmail.com> (https://twitter.com/DezkaReid)",
   "license": "MIT",
