@@ -1,6 +1,6 @@
 const Generator = require('yeoman-generator')
-const mkdirp = require('mkdirp')
 const path = require('path')
+const upperCamelCase = require('uppercamelcase')
 const config = require('./config')
 const {
   writeTemplate,
@@ -15,18 +15,15 @@ module.exports = class extends Generator {
     super(args, opts)
     this.mapArguments = objectToMap(config.metadata)
     this.mapArguments.forEach((argument, key) => this.argument(key, argument.config))
+    this.option('function')
   }
 
   initializing () {
-    this.log('starting react', this.options.appname)
+    this.log('generating component')
   }
 
   configuring () {
-    if (path.basename(this.destinationPath()) !== this.options.appname) {
-      mkdirp(this.options.appname)
-      this.destinationRoot(this.destinationPath(this.options.appname))
-    }
-    this.config.defaults({ 'app-type': 'react' })
+    this.options.type = this.options.type ? this.options.type : this.config.get('app-type')
   }
 
   prompting () {
@@ -48,19 +45,21 @@ module.exports = class extends Generator {
   }
 
   writing () {
+    this.options.name = upperCamelCase(this.options.name)
     const data = selectKeysFromObject(this.options, ...this.argumentsRequired)
-    writeTemplate.call(this, 'package', 'package.json', data)
-    writeTemplate.call(this, 'src/index-html', 'src/index.html', data)
-    writeTemplate.call(this, 'src/index-js', 'src/index.js', data)
-    this.fs.copy(this.templatePath('webpack/'), this.destinationPath('./'))
-  }
-
-  install () {
-    this.yarnInstall(config.dependencies.production)
-      .then(() => this.yarnInstall(config.dependencies.development, { 'dev': true }))
+    this.log('running path', this.destinationPath(), path.basename(this.destinationPath()))
+    const pathBase = path.basename(this.destinationPath()) === 'src' ? '.' : 'src'
+    switch (data.type) {
+      case 'react':
+        let typeComponent = this.options.function ? 'function' : 'class'
+        writeTemplate.call(this, `react/component-${typeComponent}`, `${pathBase}/${this.options.path}/${this.options.name}/index.js`, data)
+        break
+      default:
+        this.log('type unknow')
+    }
   }
 
   end () {
-    this.log('This is over')
+    this.log(`Component ${this.options.name} created`)
   }
 }
