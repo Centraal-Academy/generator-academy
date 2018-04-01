@@ -1,6 +1,15 @@
 module.exports = {
   metadata: {
+    function: {
+      type: 'option',
+      config: {
+        default: false,
+        type: Boolean,
+        required: false
+      }
+    },
     name: {
+      type: 'argument',
       config: {
         type: String,
         required: false
@@ -12,29 +21,27 @@ module.exports = {
         default: 'my-component'
       }
     },
-    path: {
+    'without-base-path': {
+      type: 'option',
       config: {
+        default: false,
+        type: Boolean,
+        required: false
+      }
+    },
+    path: {
+      type: 'option',
+      config: {
+        default: 'components',
         type: String,
         required: false
-      },
-      question: {
-        type: 'input',
-        name: 'path',
-        message: 'Component\'s path',
-        default: 'components'
       }
     },
     type: {
+      type: 'option',
       config: {
         type: String,
         required: false
-      },
-      question: {
-        type: 'list',
-        name: 'type',
-        message: 'Type of component',
-        choices: ['react'],
-        default: 'react'
       }
     }
   }
