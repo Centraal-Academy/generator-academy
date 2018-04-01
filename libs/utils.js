@@ -20,9 +20,15 @@ function writeTemplate (templatePath, destinationPath, data) {
   )
 }
 
-function objectToMap (object) {
+function objectToMap (object, filter) {
   const map = new Map()
   for (let key in object) {
+    if (filter) {
+      if (filter(object[key])) {
+        map.set(key, object[key])
+      }
+      continue
+    }
     map.set(key, object[key])
   }
   return map
