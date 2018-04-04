@@ -1,0 +1,10 @@
+{
+  "name": "<%= appname %>",
+  "description": "<%= description %>",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "dev": "webpack-dev-server --mode development --config webpack.dev.config.js",
+    "build": "webpack --mode production"
+  }
+}

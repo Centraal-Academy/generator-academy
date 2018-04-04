@@ -1,0 +1,16 @@
+import { Element as PolymerElement, html } from '@polymer/polymer/polymer-element.js'
+
+class AppElement extends PolymerElement {
+  static get is () {
+    return 'app-element'
+  }
+  static get template () {
+    return html`<div><%= appname %> generated</div>`
+  }
+
+  constructor () {
+    super()
+  }
+}
+
+customElements.define(AppElement.is, AppElement)
