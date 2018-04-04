@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/Centraal-Academy/generator-academy#readme",
   "dependencies": {
+    "dashify": "^1.0.0",
     "mkdirp": "^0.5.1",
     "uppercamelcase": "^3.0.0",
     "yeoman-generator": "^2.0.3"
