@@ -1,0 +1,16 @@
+import { Element as PolymerElement, html } from '@polymer/polymer/polymer-element.js'
+
+class <%= name %> extends PolymerElement {
+  static get is () {
+    return '<%= dashName %>'
+  }
+  static get template () {
+    return html`<div><%= name %> component</div>`
+  }
+
+  constructor () {
+    super()
+  }
+}
+
+customElements.define(<%= name %>.is, <%= name %>)

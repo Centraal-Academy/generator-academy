@@ -1,6 +1,7 @@
 const Generator = require('yeoman-generator')
 const path = require('path')
 const upperCamelCase = require('uppercamelcase')
+const dashify = require('dashify')
 const config = require('./config')
 const {
   writeTemplate,
@@ -63,6 +64,11 @@ module.exports = class extends Generator {
         let typeComponent = this.options.function ? 'function' : 'class'
         writeTemplate.call(this, `react/component-${typeComponent}`,
           `${basePath}/${this.options.path}/${this.options.name}/index.js`, data)
+        break
+      case 'polymer':
+        data.dashName = dashify(data.name)
+        writeTemplate.call(this, `polymer/component`,
+        `${basePath}/${this.options.path}/${data.dashName}/${data.dashName}.js`, data)
         break
       default:
         this.log('type unknow')
